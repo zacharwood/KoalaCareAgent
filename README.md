@@ -14,17 +14,17 @@ Video demo: https://www.youtube.com/watch?v=E08O7i23o4Y
 - n8n for backend logic and orchestration
 
 **Key Features**
-Natural language appointment booking via phone
+- Natural language appointment booking via phone
 
-Real-time lookup of existing patients in Salesforce
+- Real-time lookup of existing patients in Salesforce
 
-New patient onboarding with automatic account creation
+- New patient onboarding with automatic account creation
 
-Integration with Salesforce Intelligent Appointment Management and Scheduler
+- Integration with Salesforce Intelligent Appointment Management and Scheduler
 
-Multi-turn conversation design with fallback handling
+- Multi-turn conversation design with fallback handling
 
-Multilingual support via Vapi (Spanish demo shown in video)
+- Multilingual support via Vapi (Spanish demo shown in video)
 
 **🔧 Architecture**
 
