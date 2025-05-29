@@ -1,5 +1,6 @@
 # KoalaCareAgent
 Voice agent for healthcare appointment management
+<img width="630" alt="Screenshot 2025-05-29 at 11 31 10 am" src="https://github.com/user-attachments/assets/56a978fa-46b3-4b4e-8cd0-c08cc946bdf6" />
 
-<img width="590" alt="Screenshot 2025-05-29 at 10 59 02 am" src="https://github.com/user-attachments/assets/6c2a0148-c6e9-4fbc-964a-6e711f52b7a5" />
+
 
