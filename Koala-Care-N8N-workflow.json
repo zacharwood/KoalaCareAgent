@@ -233,7 +233,7 @@
     },
     {
       "parameters": {
-        "url": "=https://koalacare.my.salesforce.com/services/data/v62.0/query/?q=SELECT id from workType where name = 'Routine Check Up'",
+        "url": "=https://koalacare.my.salesforce.com/services/data/v62.0/query/?q=SELECT id from workType where name = '{{ $json.body.message.toolCalls[0].function.arguments.appointmentType }}'",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "salesforceOAuth2Api",
         "sendBody": true,
