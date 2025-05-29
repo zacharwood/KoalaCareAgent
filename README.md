@@ -24,13 +24,15 @@ Multi-turn conversation design with fallback handling
 
 Multilingual support via Vapi (Spanish demo shown in video)
 
-🔧 Architecture
+**🔧 Architecture**
+
 <img width="630" alt="Screenshot 2025-05-29 at 11 31 10 am" src="https://github.com/user-attachments/assets/56a978fa-46b3-4b4e-8cd0-c08cc946bdf6" />
 
-🛠️ How It Works
+
+**🛠️ How It Works**
 This solution combines best-in-class AI models with Salesforce to create a fully voice-driven scheduling assistant. Here’s how the system works end-to-end:
 
-🎙️ Voice Interaction
+**🎙️ Voice Interaction**
 Speech-to-Text (STT):
 Powered by Deepgram (Nova-3) with multilingual transcription support, providing accurate and fast transcription even in noisy environments.
 
@@ -40,12 +42,12 @@ Vapi leverages OpenAI’s GPT-4o mini to interpret user intent, manage conversat
 Text-to-Speech (TTS):
 Responses are generated and spoken using Cartesia’s Sonic-2 voice, designed to sound warm, clear, and professional in a healthcare setting.
 
-🧠 Agent Logic via Vapi Tool Calls
+**🧠 Agent Logic via Vapi Tool Calls**
 Vapi uses structured tool calls to pass structured data (e.g. names, DOB, appointment preferences) from the LLM to downstream systems.
 
 These tool calls hit a webhook in n8n, which acts as the middleware to process requests and route logic.
 
-🔄 Backend Orchestration with n8n
+**🔄 Backend Orchestration with n8n**
 n8n receives the tool call payload and determines what kind of Salesforce action is required:
 
 get_account_details: Searches for an existing patient in Salesforce using name + DOB
@@ -60,7 +62,7 @@ get_booked_appointment: Retrieves future appointments for that patient
 
 Once the relevant action is completed, n8n packages the result and responds back to Vapi, which is then passed to the voice agent to share with the user.
 
-🔁 Continuous Conversation
+**🔁 Continuous Conversation**
 The LLM remains in context through the call, adapting follow-up questions and clarifications.
 
 Users can reschedule, explore different days, or confirm bookings—all through natural voice.
