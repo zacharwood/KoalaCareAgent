@@ -1,0 +1,221 @@
+[
+  {
+    "id": "1185d500-9ad5-40d5-8c17-00b7715322b6",
+    "createdAt": "2025-05-24T01:12:41.977Z",
+    "updatedAt": "2025-05-24T01:13:36.434Z",
+    "type": "function",
+    "function": {
+      "name": "get_booked_appointment",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "lastName": {
+            "description": "",
+            "type": "string"
+          },
+          "firstName": {
+            "description": "",
+            "type": "string"
+          },
+          "dateOfBirth": {
+            "description": "",
+            "type": "string"
+          }
+        },
+        "required": [
+          "firstName",
+          "lastName",
+          "dateOfBirth"
+        ]
+      }
+    },
+    "orgId": "a74a8551-130f-4ccf-b8a0-22bf170f8b57",
+    "server": {
+      "url": "",
+      "headers": {}
+    }
+  },
+  {
+    "id": "dbe11bdf-8c87-4098-b45e-d59e41d65380",
+    "createdAt": "2025-05-21T22:27:37.984Z",
+    "updatedAt": "2025-05-24T00:35:36.647Z",
+    "type": "function",
+    "function": {
+      "name": "book_appointment",
+      "description": "Book the patients appointment",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "endTime": {
+            "description": "Provide in the following format 2025-05-23T15:00:00.000+0000",
+            "type": "string"
+          },
+          "subject": {
+            "description": "",
+            "type": "string"
+          },
+          "duration": {
+            "description": "Please format with just a number e.g. 30 ",
+            "type": "number"
+          },
+          "lastName": {
+            "description": "",
+            "type": "string"
+          },
+          "firstName": {
+            "description": "",
+            "type": "string"
+          },
+          "startTime": {
+            "description": "Provide in the following format 2025-05-23T15:00:00.000+0000",
+            "type": "string"
+          },
+          "dateOfBirth": {
+            "description": "Patients date of birth. Please share in the following format - 1975-04-15",
+            "type": "string"
+          },
+          "appointmentType": {
+            "description": "The type of appointment",
+            "type": "string"
+          }
+        },
+        "required": [
+          "appointmentType",
+          "firstName",
+          "endTime",
+          "startTime",
+          "duration",
+          "lastName",
+          "subject",
+          "dateOfBirth"
+        ]
+      }
+    },
+    "orgId": "a74a8551-130f-4ccf-b8a0-22bf170f8b57",
+    "server": {
+      "url": "",
+      "headers": {}
+    }
+  },
+  {
+    "id": "2f0d7d10-69d8-4201-9798-8966c73b4005",
+    "createdAt": "2025-05-20T05:19:08.885Z",
+    "updatedAt": "2025-05-28T03:39:52.597Z",
+    "type": "function",
+    "function": {
+      "name": "get_available_appointments",
+      "description": "Get available appointments based on appointment type",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "endTime": {
+            "description": "Provide in the following format 2025-05-23T15:00:00.000+0000\nUse when the patient specifies a day for the appointment",
+            "type": "string"
+          },
+          "startTime": {
+            "description": "Provide in the following format 2025-05-23T15:00:00.000+0000\nUse when the patient specifies a day for the appointment",
+            "type": "string"
+          },
+          "appointmentType": {
+            "description": "Appointment type to be able to find available appointments",
+            "type": "string"
+          }
+        },
+        "required": [
+          "appointmentType"
+        ]
+      }
+    },
+    "orgId": "a74a8551-130f-4ccf-b8a0-22bf170f8b57",
+    "server": {
+      "url": "",
+      "headers": {}
+    }
+  },
+  {
+    "id": "f099c7ca-0a4f-4403-894e-9af151f0a727",
+    "createdAt": "2025-04-15T09:32:07.425Z",
+    "updatedAt": "2025-05-23T05:48:38.474Z",
+    "type": "function",
+    "function": {
+      "name": "get_account_details",
+      "strict": false,
+      "description": "Get information about an account based on the patients name and their date of birth",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "lastName": {
+            "description": "",
+            "type": "string"
+          },
+          "firstName": {
+            "description": "",
+            "type": "string"
+          },
+          "dateOfBirth": {
+            "description": "Patients date of birth used to verify their details",
+            "type": "string"
+          }
+        },
+        "required": [
+          "dateOfBirth",
+          "firstName",
+          "lastName"
+        ]
+      }
+    },
+    "messages": [],
+    "orgId": "a74a8551-130f-4ccf-b8a0-22bf170f8b57",
+    "server": {
+      "url": "",
+      "headers": {}
+    },
+    "async": false
+  },
+  {
+    "id": "d420c29c-122d-4e41-aed3-be05f9b3e5f1",
+    "createdAt": "2025-04-14T23:13:44.119Z",
+    "updatedAt": "2025-05-23T05:47:35.797Z",
+    "type": "function",
+    "function": {
+      "name": "create_account",
+      "strict": false,
+      "description": "Create an account for a new customer ",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "lastName": {
+            "description": "The patients last name",
+            "type": "string"
+          },
+          "firstName": {
+            "description": "The patients first name",
+            "type": "string"
+          },
+          "dateOfBirth": {
+            "description": "The patients date of birth",
+            "type": "string"
+          },
+          "emailAddress": {
+            "description": "The patients email address",
+            "type": "string"
+          }
+        },
+        "required": [
+          "firstName",
+          "dateOfBirth",
+          "lastName"
+        ]
+      }
+    },
+    "messages": [],
+    "orgId": "a74a8551-130f-4ccf-b8a0-22bf170f8b57",
+    "server": {
+      "url": "",
+      "headers": {}
+    },
+    "async": false
+  }
+]
+  
+   

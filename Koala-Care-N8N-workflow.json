@@ -1,0 +1,768 @@
+{
+  "name": "Voice Agent Koala Care",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "5607ad94-5533-4e88-b658-e0d007ff3fd8",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -80,
+        540
+      ],
+      "id": "801ffb3f-f4e8-4ca5-833b-3527914890e1",
+      "name": "Vapi tool request",
+      "webhookId": "5607ad94-5533-4e88-b658-e0d007ff3fd8"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.message.toolCalls[0].function.name }}",
+                    "rightValue": "get_available_appointments",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "f28a2f89-d8be-4fc1-83fe-47223239a159"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Get available appointments"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "d8be6fd1-9d61-4835-b5a8-6359f8ab535a",
+                    "leftValue": "={{ $json.body.message.toolCalls[0].function.name }}",
+                    "rightValue": "create_account",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Create Account"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "57a9f1e9-8133-4975-9732-008f6009b09a",
+                    "leftValue": "={{ $json.body.message.toolCalls[0].function.name }}",
+                    "rightValue": "get_account_details",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Get account details"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "11c9aa8d-2328-480e-a41d-16a7cc031edf",
+                    "leftValue": "={{ $json.body.message.toolCalls[0].function.name }}",
+                    "rightValue": "book_appointment",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Book Appointment"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "d7086260-ebc0-43f7-a01c-1b7a87159a4e",
+                    "leftValue": "={{ $json.body.message.toolCalls[0].function.name }}",
+                    "rightValue": "get_booked_appointment",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Get Booked Appointments"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        140,
+        498
+      ],
+      "id": "49bf0394-bb09-4542-a781-950b4736e1a6",
+      "name": "Decision based on request body"
+    },
+    {
+      "parameters": {
+        "url": "=https://koalacare.my.salesforce.com/services/data/v62.0/query/?q=SELECT id, FirstName, LastName, PersonBirthdate from Account where LastName = '{{ $json.body.message.toolCalls[0].function.arguments.lastName }}' and FirstName = '{{ $json.body.message.toolCalls[0].function.arguments.firstName }}' and PersonBirthDate = {{ $json.body.message.toolCalls[0].function.arguments.dateOfBirth }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "salesforceOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        360,
+        540
+      ],
+      "id": "4b81d143-2e79-4bb9-b39d-da3a503e5e1b",
+      "name": "Get account details from SF",
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "pB0n2CE11sEVjf6L",
+          "name": "SF Koala Care"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://koalacare.my.salesforce.com/services/data/v62.0/sobjects/Account",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "salesforceOAuth2Api",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "LastName",
+              "value": "={{ $json.body.message.toolCalls[0].function.arguments.lastName }}"
+            },
+            {
+              "name": "PersonBirthdate",
+              "value": "={{ $json.body.message.toolCalls[0].function.arguments.dateOfBirth }}"
+            },
+            {
+              "name": "RecordTypeId",
+              "value": "012Ka000001FtmpIAC"
+            },
+            {
+              "name": "FirstName",
+              "value": "={{ $json.body.message.toolCalls[0].function.arguments.firstName }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        360,
+        340
+      ],
+      "id": "5e03ee36-eece-4043-8d05-b00ab5447df8",
+      "name": "Create account",
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "pB0n2CE11sEVjf6L",
+          "name": "SF Koala Care"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://koalacare.my.salesforce.com/services/data/v62.0/query/?q=SELECT id from workType where name = 'Routine Check Up'",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "salesforceOAuth2Api",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        360,
+        140
+      ],
+      "id": "9f796a16-d9ee-41c1-9e95-7c96a5f05ee8",
+      "name": "Get work type IDs",
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "pB0n2CE11sEVjf6L",
+          "name": "SF Koala Care"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://koalacare.my.salesforce.com/services/data/v62.0/scheduling/getAppointmentSlots",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "salesforceOAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n   \"startTime\": \"{{ $('Vapi tool request').item.json.body.message.toolCalls[0].function.arguments.startTime }}\",\n  \"endTime\": \"{{ $('Vapi tool request').item.json.body.message.toolCallList[0].function.arguments.endTime }}\",\n  \"workType\": {\n    \"id\": \"{{ $json.records[0].Id }}\"\n  },\n  \"requiredResourceIds\": [\n    \"0HnKa0000005a09KAA\"\n  ],\n  \"territoryIds\": [\n    \"0HhKa0000005Td8KAE\"\n  ],\n  \"engagementChannelTypeIds\": [\n    \"0eFKa000000L9Z3MAK\"\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        580,
+        140
+      ],
+      "id": "44f40e21-0691-42e6-bc20-39aa79c9a57e",
+      "name": "Get Available slots",
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "pB0n2CE11sEVjf6L",
+          "name": "SF Koala Care"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://koalacare.my.salesforce.com/services/data/v62.0/sobjects/ServiceAppointment",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "salesforceOAuth2Api",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "WorkTypeId",
+              "value": "={{ $json.records[0].Id }}"
+            },
+            {
+              "name": "EarliestStartTime",
+              "value": "={{ $('Vapi tool request').item.json.body.message.toolCalls[0].function.arguments.startTime }}"
+            },
+            {
+              "name": "DueDate",
+              "value": "={{ $('Vapi tool request').item.json.body.message.toolCalls[0].function.arguments.endTime }}"
+            },
+            {
+              "name": "Subject",
+              "value": "={{ $('Vapi tool request').item.json.body.message.toolCalls[0].function.arguments.subject }}"
+            },
+            {
+              "name": "ServiceTerritoryId",
+              "value": "0HhKa0000005Td8KAE"
+            },
+            {
+              "name": "Duration",
+              "value": "30"
+            },
+            {
+              "name": "ParentRecordId",
+              "value": "={{ $('Get account details from SF1').item.json.records[0].Id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        800,
+        740
+      ],
+      "id": "2c0ba994-c85c-429e-b89a-93864240e455",
+      "name": "Create Appointment",
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "pB0n2CE11sEVjf6L",
+          "name": "SF Koala Care"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"results\": [\n    {\n      \"toolCallId\": \"{{ $('Vapi tool request').item.json.body.message.toolCalls[0].id }}\",\n      \"result\": {\n        \"startTime\": \"{{ $json.startTime }}\",\n        \"endTime\": \"{{ $json.endTime }}\"\n      }\n    }\n  ]\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.2,
+      "position": [
+        1460,
+        140
+      ],
+      "id": "c3faa25a-489a-474a-b38e-3eaee61aff13",
+      "name": "Send available appointments to Vapi"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "timeSlots",
+        "include": "allOtherFields",
+        "options": {
+          "destinationFieldName": ""
+        }
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        800,
+        140
+      ],
+      "id": "ca757107-fd49-4eb6-ae6f-b7d40ec16366",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "maxItems": 3
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        1020,
+        140
+      ],
+      "id": "5066f3fc-ed04-40be-b0c7-e022fef87968",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "url": "=https://koalacare.my.salesforce.com/services/data/v62.0/query/?q=SELECT id, FirstName, LastName, PersonBirthdate from Account where LastName = '{{ $json.body.message.toolCalls[0].function.arguments.lastName }}' and FirstName = '{{ $json.body.message.toolCalls[0].function.arguments.firstName }}' and PersonBirthDate = {{ $json.body.message.toolCalls[0].function.arguments.dateOfBirth }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "salesforceOAuth2Api",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        360,
+        740
+      ],
+      "id": "ea9c2278-c818-41b5-b477-02df5c47efb2",
+      "name": "Get account details from SF1",
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "pB0n2CE11sEVjf6L",
+          "name": "SF Koala Care"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://koalacare.my.salesforce.com/services/data/v62.0/query/?q=SELECT id from workType where name = 'Routine Check Up'",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "salesforceOAuth2Api",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        580,
+        740
+      ],
+      "id": "808b14f8-0b71-45cf-86ba-e77a26582232",
+      "name": "Get work type IDs1",
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "pB0n2CE11sEVjf6L",
+          "name": "SF Koala Care"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"results\": [\n    {\n      \"toolCallId\": \"{{ $('Vapi tool request').item.json.body.message.toolCalls[0].id }}\",\n      \"result\": {\n        \"id\": \"{{ $json.id }}\",\n        \"success\": \"{{ $json.success }}\"\n      }\n    }\n  ]\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.2,
+      "position": [
+        580,
+        340
+      ],
+      "id": "64b9971e-24fd-4b92-b3e0-757ec59f46ec",
+      "name": "Confirm Account Creation"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"results\": [\n    {\n      \"toolCallId\": \"{{ $('Vapi tool request').item.json.body.message.toolCalls[0].id }}\",\n      \"result\": {\n        \"id\": \"{{ $json.records[0].Id }}\",\n        \"success\": \"{{ $json.done }}\"\n      }\n    }\n  ]\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.2,
+      "position": [
+        580,
+        540
+      ],
+      "id": "54e3dd43-9096-4e4f-bb34-eb9363936c26",
+      "name": "Confirm Account details"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"results\": [\n    {\n      \"toolCallId\": \"{{ $('Vapi tool request').item.json.body.message.toolCalls[0].id }}\",\n      \"result\": {\n        \"id\": \"{{ $json.id }}\",\n        \"success\": \"{{ $json.success }}\"\n      }\n    }\n  ]\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.2,
+      "position": [
+        1020,
+        740
+      ],
+      "id": "cda2e670-d7f4-4df8-a13d-157af5e354c2",
+      "name": "Confirm appointment booking"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "timeSlots.startTime"
+            },
+            {
+              "fieldToAggregate": "timeSlots.endTime"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1240,
+        140
+      ],
+      "id": "dd02d6dd-74d1-4b8f-8d2a-29ca6f729176",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "url": "=https://koalacare.my.salesforce.com/services/data/v62.0/query/?q=SELECT id, EarliestStartTime from ServiceAppointment where AccountId =  '{{ $json.records[0].Id }}'",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "salesforceOAuth2Api",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        580,
+        940
+      ],
+      "id": "94d70c5b-f640-4aea-8162-d3376f1f3389",
+      "name": "Get booked appointments",
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "pB0n2CE11sEVjf6L",
+          "name": "SF Koala Care"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://koalacare.my.salesforce.com/services/data/v62.0/query/?q=SELECT id, FirstName, LastName, PersonBirthdate from Account where LastName = '{{ $json.body.message.toolCalls[0].function.arguments.lastName }}' and FirstName = '{{ $json.body.message.toolCalls[0].function.arguments.firstName }}' and PersonBirthDate = {{ $json.body.message.toolCalls[0].function.arguments.dateOfBirth }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "salesforceOAuth2Api",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        360,
+        940
+      ],
+      "id": "3957ff0e-3c65-419e-a029-10c289bc0925",
+      "name": "Get account details from SF2",
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "pB0n2CE11sEVjf6L",
+          "name": "SF Koala Care"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"results\": [\n    {\n      \"toolCallId\": \"{{ $('Vapi tool request').item.json.body.message.toolCalls[0].id }}\",\n      \"result\": {\n        \"startTime\": \"{{ $json.records[0].EarliestStartTime }}\"\n        \n      }\n    }\n  ]\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.2,
+      "position": [
+        800,
+        940
+      ],
+      "id": "1c317a8e-271a-4b45-88aa-bef120a7c96e",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Vapi tool request": {
+      "main": [
+        [
+          {
+            "node": "Decision based on request body",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Decision based on request body": {
+      "main": [
+        [
+          {
+            "node": "Get work type IDs",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create account",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get account details from SF",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get account details from SF1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get account details from SF2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create account": {
+      "main": [
+        [
+          {
+            "node": "Confirm Account Creation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get account details from SF": {
+      "main": [
+        [
+          {
+            "node": "Confirm Account details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get work type IDs": {
+      "main": [
+        [
+          {
+            "node": "Get Available slots",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Available slots": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send available appointments to Vapi": {
+      "main": [
+        []
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get account details from SF1": {
+      "main": [
+        [
+          {
+            "node": "Get work type IDs1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get work type IDs1": {
+      "main": [
+        [
+          {
+            "node": "Create Appointment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Appointment": {
+      "main": [
+        [
+          {
+            "node": "Confirm appointment booking",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Send available appointments to Vapi",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get account details from SF2": {
+      "main": [
+        [
+          {
+            "node": "Get booked appointments",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get booked appointments": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "e02307d2-3fa5-4b22-a5e7-7cb4ea1070be",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2df2aac1b440fae58e21951ae32f0ff1bde8c43f276ca211e17c0c2b582a8f95"
+  },
+  "id": "xXRtoIP5nQERvTjO",
+  "tags": []
+}

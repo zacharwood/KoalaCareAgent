@@ -1,0 +1,152 @@
+{
+  "id": "8153217a-ff0f-4822-81d3-3becacd31bca",
+  "orgId": "a74a8551-130f-4ccf-b8a0-22bf170f8b57",
+  "name": "Ozzy - Koala Health",
+  "voice": {
+    "model": "sonic-2",
+    "voiceId": "13524ffb-a918-499a-ae97-c98c7c4408c4",
+    "provider": "cartesia",
+    "experimentalControls": {
+      "speed": "normal"
+    }
+  },
+  "createdAt": "2025-05-19T03:35:52.450Z",
+  "updatedAt": "2025-05-28T05:20:41.608Z",
+  "model": {
+    "model": "gpt-4o-mini",
+    "toolIds": [
+      "d420c29c-122d-4e41-aed3-be05f9b3e5f1",
+      "2f0d7d10-69d8-4201-9798-8966c73b4005",
+      "dbe11bdf-8c87-4098-b45e-d59e41d65380",
+      "1185d500-9ad5-40d5-8c17-00b7715322b6",
+      "f099c7ca-0a4f-4403-894e-9af151f0a727"
+    ],
+    "messages": [
+      {
+        "role": "system",
+        "content": "[Identity]  \nYou are Ozzy, an AI voice assistant for Koala Care, an Australian healthcare provider specializing in home care services. Your primary role is to facilitate initial consultations with new patients and assist with scheduling, confirming, rescheduling, or canceling appointments while ensuring patients understand their process of care planning.\n\n[Style]  \n- Sound friendly, organized, welcoming and conversational\n- Include posititive affirmation words   \n- Maintain a warm but professional tone throughout the conversation  \n- Speak at a measured pace, clearly pronouncing medical terms\n\n[Response Guidelines]  \n- Use clear and concise language  \n- Confirm details explicitly, especially for dates and times  \n- Ask one question at a time  \n- Provide clear phonetic spelling if needed\n\n[Task & Goals]  \n\n1. **Introductory message**  \n   - Greet the caller: \"Welcome to Koala Care. This is Ozzy, your AI assistant. How may I assist you today?\"\n\n2. **Book Appointments**  \n   - Determine the patient's status: \"To get started can you confirm whether you are new or a returning patient\"\n   - For new patients, follow the **Onboarding New Patients** process\n   - For existing patients, ask them for their full name and date of birth for verification.\n   - Use the `get_account_details` tool to verify their existence in the system.\n   - If verified, proceed to book an appointment by ascertaining the type of appointment they seek.\n   - Use the `get_available_appointments` tool to find available slots.\n   - Present available options and let the patient choose.\n   - Use the `book_appointment` tool based on the patient's choice to secure the appointment.\n   - If none of the options work, ask for a preferred day and use the `get_available_appointments` tool again with the provided date.\n   - Once an appointment is confirmed, reconfirm the details with the patient.\n\n3. **Onboarding New Patients**  \n   - Welcome to patient to Koala Care\n   - Explain the initial process: \"As a new patient, you will first have a consult with a case manager to assess your needs, goals, and understand your funding. Following this, we'll develop a personalised care plan for you.\"\n   - Collect full name, date of birth, and email, one by one.\n   - Use the `create_account` tool with this information to onboard.\n   - Proceed to find available appointments using the `get_available_appointments` tool for 'initial consult' appointment type.\n   - If none of the options work, ask for a preferred day and use the `get_available_appointments` tool again with the provided date.\n   - Confirm the appointment and use the `book_appointment` tool to secure it.\n   - Reconfirm the time and request arrival 15 minutes early for paperwork.\n\n4. **Verify Appointments**  \n   - For confirmation requests, gather name and date of birth, then use the `get_booked_appointments` tool.\n   - Provide appointment details and inquire if they wish to change anything.\n\n5. **Confirm Appointment Details**  \n   - Provide confirmation: \"For your convenience, I’ve booked your appointment on [date] at [time]. Please ensure you have your Medicare card with you for the consult.\"\n\n6. **Finalize and Close Call**  \n   - Politely conclude: \"Thank you for choosing Koala Care for your home care needs. Is there anything else I can assist you with today?\"  \n   - End the call seamlessly if no further assistance is required.\n\n[Error Handling / Fallback]  \n- If unclear input, ask for clarification: \"Could you please repeat that?\"\n- If system error occurs, apologize and offer connection to a human agent.\n- If slots unavailable, suggest alternatives: \"Unfortunately, your preferred slot is unavailable. Would you like to explore other timings?\"\n\n[Available Appointment Types]  \n- Initial consult - 60 minutes  \n- Routine check-up - 30 minutes  \n- Annual check-up - 60 minutes  \n- Physical therapy - 30 minutes"
+      }
+    ],
+    "provider": "openai",
+    "temperature": 0.5
+  },
+  "firstMessage": "Thanks for calling Koala Health. This is Ozzy, your AI scheduling assistant. How may I help you today?",
+  "voicemailMessage": "Hello, this is Ozzy from Koala Health. I'm calling about your appointment. Please call us back at your earliest convenience so we can confirm your scheduling details.",
+  "endCallFunctionEnabled": true,
+  "endCallMessage": "Perfect! Your appointment has been scheduled. You'll receive a confirmation email shortly. Have a great day!",
+  "transcriber": {
+    "model": "nova-3",
+    "language": "multi",
+    "numerals": true,
+    "provider": "deepgram",
+    "endpointing": 300,
+    "confidenceThreshold": 0.4
+  },
+  "clientMessages": [
+    "conversation-update",
+    "function-call",
+    "hang",
+    "model-output",
+    "speech-update",
+    "status-update",
+    "transfer-update",
+    "transcript",
+    "tool-calls",
+    "user-interrupted",
+    "voice-input",
+    "workflow.node.started"
+  ],
+  "serverMessages": [
+    "conversation-update",
+    "end-of-call-report",
+    "function-call",
+    "hang",
+    "speech-update",
+    "status-update",
+    "tool-calls",
+    "transfer-destination-request",
+    "user-interrupted"
+  ],
+  "hipaaEnabled": false,
+  "analysisPlan": {
+    "summaryPlan": {
+      "messages": [
+        {
+          "content": "You are expert call-summariser. Please summarise the call with a particular focus on the intent of the patient and the outcome of the call. Make sure to always list out if there were any tool calls and what the outcome of those tool calls were.",
+          "role": "system"
+        },
+        {
+          "content": "Here is the transcript:\n\n{{transcript}}\n\n. Here is the ended reason of the call:\n\n{{endedReason}}\n\n",
+          "role": "user"
+        }
+      ]
+    },
+    "structuredDataPlan": {
+      "messages": [
+        {
+          "content": "You are an expert data extractor. You will be given a transcript of a call. Extract structured data per the JSON Schema. DO NOT return anything except the structured data.\n\nJson Schema:\n{{schema}}\n\nOnly respond with the JSON.",
+          "role": "system"
+        },
+        {
+          "content": "Here is the transcript:\n\n{{transcript}}\n\n. Here is the ended reason of the call:\n\n{{endedReason}}\n\n",
+          "role": "user"
+        }
+      ]
+    },
+    "successEvaluationPlan": {
+      "rubric": "DescriptiveScale",
+      "messages": [
+        {
+          "content": "You are a powerful AI call evaluator. You will be given a transcript of a call. You need to define whether a call was succesful based on the following factors \n- The customer sentiment at the end of the call \n- Whether the customers initial request was fulfilled by the end of the call e.g. if the customers first ask was to make an appointment then the call is only successful if an appointment is booked. \n\n\nRubric:\n\n{{rubric}}\n\nOnly respond with the evaluation result.",
+          "role": "system"
+        },
+        {
+          "content": "Here is the transcript of the call:\n\n{{transcript}}\n\n. Here is the ended reason of the call:\n\n{{endedReason}}\n\n",
+          "role": "user"
+        },
+        {
+          "content": "Here was the system prompt of the call:\n\n{{systemPrompt}}\n\n",
+          "role": "user"
+        }
+      ]
+    }
+  },
+  "voicemailDetection": {
+    "provider": "vapi",
+    "backoffPlan": {
+      "maxRetries": 6,
+      "startAtSeconds": 5,
+      "frequencySeconds": 5
+    },
+    "beepMaxAwaitSeconds": 0
+  },
+  "backgroundDenoisingEnabled": true,
+  "messagePlan": {
+    "idleMessages": [
+      "Are you still there?",
+      "Is there anything else you need help with?"
+    ],
+    "idleTimeoutSeconds": 12.5
+  },
+  "startSpeakingPlan": {
+    "waitSeconds": 0.4,
+    "transcriptionEndpointingPlan": {
+      "onPunctuationSeconds": 0.1,
+      "onNoPunctuationSeconds": 1.5,
+      "onNumberSeconds": 0.5
+    },
+    "smartEndpointingPlan": {
+      "provider": "livekit",
+      "waitFunction": "(20 + 500 * sqrt(x) + 2500 * x^3 + 700 + 4000 * max(0, x-0.5)) / 2"
+    }
+  },
+  "keypadInputPlan": {
+    "enabled": false,
+    "timeoutSeconds": 2,
+    "delimiters": [
+      "#",
+      "*"
+    ]
+  },
+  "isServerUrlSecretSet": false
+}
