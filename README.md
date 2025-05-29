@@ -3,6 +3,8 @@
 **Overview**
 This project demonstrates a production-ready example of how voice AI can be combined with Salesforce to handle appointment scheduling, account creation, and existing booking lookups—all via phone.
 
+Video demo: https://www.youtube.com/watch?v=E08O7i23o4Y
+
 **Built using:**
 
 - Vapi for conversational voice AI
@@ -18,7 +20,7 @@ Real-time lookup of existing patients in Salesforce
 
 New patient onboarding with automatic account creation
 
-Integration with Salesforce Service Territories, Work Types, and Service Appointments
+Integration with Salesforce Intelligent Appointment Management and Scheduler
 
 Multi-turn conversation design with fallback handling
 
@@ -30,9 +32,11 @@ Multilingual support via Vapi (Spanish demo shown in video)
 
 
 **🛠️ How It Works**
+
 This solution combines best-in-class AI models with Salesforce to create a fully voice-driven scheduling assistant. Here’s how the system works end-to-end:
 
 **🎙️ Voice Interaction**
+
 Speech-to-Text (STT):
 Powered by Deepgram (Nova-3) with multilingual transcription support, providing accurate and fast transcription even in noisy environments.
 
@@ -43,11 +47,13 @@ Text-to-Speech (TTS):
 Responses are generated and spoken using Cartesia’s Sonic-2 voice, designed to sound warm, clear, and professional in a healthcare setting.
 
 **🧠 Agent Logic via Vapi Tool Calls**
+
 Vapi uses structured tool calls to pass structured data (e.g. names, DOB, appointment preferences) from the LLM to downstream systems.
 
 These tool calls hit a webhook in n8n, which acts as the middleware to process requests and route logic.
 
 **🔄 Backend Orchestration with n8n**
+
 n8n receives the tool call payload and determines what kind of Salesforce action is required:
 
 get_account_details: Searches for an existing patient in Salesforce using name + DOB
